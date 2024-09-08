@@ -1,15 +1,58 @@
-import React from 'react';
+//web 741500148269-fq05tj4jlav3grijbt08u5lbndfj47fa.apps.googleusercontent.com
+//android 741500148269-d9s0m2p927vdh22oa9cks9o1btga5v0v.apps.googleusercontent.com
+import { Text, View } from "react-native";
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
+import { useEffect, useState } from "react";
 
 export default function Index() {
+  const [error, setError] = useState();
+  const [userInfo, setUserInfo] = useState();
+
+  const configureGoogleSignIn = () => {
+    GoogleSignin.configure({
+      webClientId:
+        "741500148269-fq05tj4jlav3grijbt08u5lbndfj47fa.apps.googleusercontent.com",
+      androidClientId:
+        "741500148269-d9s0m2p927vdh22oa9cks9o1btga5v0v.apps.googleusercontent.com",
+    });
+  };
+
+  useEffect(() => {
+    configureGoogleSignIn();
+  });
+
+  const signIn = async () => {
+    console.log("Pressed Sign In");
+
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+      setUserInfo(userInfo);
+    }catch(error) {
+      console.log(error);
+      setError(error)
+    }
+  }
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <Text>Edit app/index.jsx to edit this screen.</Text>
+      <Text>{JSON.stringify(error)}</Text>
+      <Text>{JSON.stringify(userInfo)}</Text>
+      <GoogleSigninButton
+        size={GoogleSigninButton.Size.Standard}
+        color={GoogleSigninButton.Color.Dark}
+        onPress={signIn}
+      />
     </View>
   );
 }
