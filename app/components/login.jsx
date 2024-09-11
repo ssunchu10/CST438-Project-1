@@ -2,15 +2,8 @@ import { Text, View } from "react-native";
 import {
   GoogleSignin,
   GoogleSigninButton,
-  statusCodes,
 } from "@react-native-google-signin/google-signin";
 import { useEffect, useState } from "react";
-import { LogBox } from 'react-native';
-
-LogBox.ignoreLogs([
-  'RNGoogleSignIn: `androidClientId` is not a valid configuration parameter',
-]);
-
 
 export default function Login() {
   const [error, setError] = useState();
@@ -18,10 +11,8 @@ export default function Login() {
 
   const configureGoogleSignIn = () => {
     GoogleSignin.configure({
-      androidClientId:
+      OAuthClientID:
         "741500148269-d9s0m2p927vdh22oa9cks9o1btga5v0v.apps.googleusercontent.com",
-      // webClientId:
-      //   "741500148269-fq05tj4jlav3grijbt08u5lbndfj47fa.apps.googleusercontent.com",
     });
   };
 
