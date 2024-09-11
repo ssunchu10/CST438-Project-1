@@ -7,6 +7,8 @@ import {
 import { useEffect, useState } from "react";
 import { LogBox } from 'react-native';
 
+
+
 LogBox.ignoreLogs([
   'RNGoogleSignIn: `androidClientId` is not a valid configuration parameter',
 ]);
@@ -15,7 +17,7 @@ LogBox.ignoreLogs([
 export default function Login() {
   const [error, setError] = useState();
   const [userInfo, setUserInfo] = useState();
-
+  
   const configureGoogleSignIn = () => {
     GoogleSignin.configure({
       androidClientId:
@@ -27,6 +29,7 @@ export default function Login() {
 
   useEffect(() => {
     configureGoogleSignIn();
+    // createTable();
   });
 
   const signIn = async () => {
