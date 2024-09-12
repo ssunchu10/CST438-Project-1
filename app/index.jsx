@@ -1,5 +1,5 @@
 import { StyleSheet, ImageBackground, View } from "react-native";
-import Login from './components/login';
+import App from "./App";
 
 
 export default function Index() {
@@ -9,7 +9,7 @@ export default function Index() {
         source={require('./assets/background.jpg')}
         style={styles.backgroundImage}
       >
-        <Login/>
+        <App/>        
       </ImageBackground>  
     </View>
   );
