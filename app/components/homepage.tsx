@@ -80,8 +80,8 @@ const HomePage: React.FC = () => {
   };
 
   const backgroundImage = isDay
-  ? require('../assets/images/day.webp')  
-  : require('../assets/images/moonn.webp');
+  ? require('../assets/day.webp')  
+  : require('../assets/moonn.webp');
 
   const cColor = 'white';  
   const fColor = 'white';  
