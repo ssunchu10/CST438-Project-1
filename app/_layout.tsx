@@ -10,12 +10,12 @@ export default function RootLayout() {
         }}
       />
       
-    <Stack.Screen
+    {/* <Stack.Screen
         name="search"
         options={{
           title: "Search",
         }}
-      />
+      /> */}
     </Stack>
   );
 }
