@@ -1,9 +1,8 @@
 import { Stack } from "expo-router";
 import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { AntDesign} from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Menu, Provider } from 'react-native-paper';
-
 
 export default function RootLayout() {
 
@@ -12,26 +11,32 @@ export default function RootLayout() {
   const openMenu = () => setMenuVisible(true);
   const closeMenu = () => setMenuVisible(false);
 
-
   return (
     <Provider>
-    <Stack>
-      <Stack.Screen name="index" />
+      <Stack>
+       
+        <Stack.Screen
+          name="index"
+          options={{
+            title: "Weather",
+          }}
+        />
 
-      <Stack.Screen //for header bar of homepage
-        name="homepage"
-        options={{
-          headerTitle: () => <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Welcome User</Text>,
-          headerStyle: { backgroundColor: 'white' }, 
-          headerTintColor: '#fff', 
-          headerRight: () => (
-            <View style={styles.headerIcons}>
+        
+        <Stack.Screen
+          name="homepage"
+          options={{
+            headerTitle: () => <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Welcome User</Text>,
+            headerStyle: { backgroundColor: 'white' },
+            headerTintColor: '#fff',
+            headerRight: () => (
+              <View style={styles.headerIcons}>
 
-              <TouchableOpacity onPress={() => alert('Search')}>
-                <AntDesign name="search1" size={20} color="black" style={styles.headerIcon} />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={() => alert('Search')}>
+                  <AntDesign name="search1" size={20} color="black" style={styles.headerIcon} />
+                </TouchableOpacity>
 
-              <Menu
+                <Menu
                   visible={menuVisible}
                   onDismiss={closeMenu}
                   anchor={
@@ -53,7 +58,6 @@ export default function RootLayout() {
   );
 }
 
-
 const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
@@ -63,9 +67,9 @@ const styles = StyleSheet.create({
   headerIcons: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 15, 
+    marginRight: 15,
   },
   headerIcon: {
-    marginLeft: 15, 
+    marginLeft: 15,
   },
 });
