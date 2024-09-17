@@ -14,6 +14,7 @@ export default function Search() {
   };
 
   const submitSearch = () => {
+    console.log("Pressed Submit");
     dispatch(updateSearchLocation(searchQuery));
     dispatch(getData());
   };
