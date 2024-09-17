@@ -27,10 +27,20 @@ export default function Login() {
     });
   };
 
+  const loadData = useCallback(async () => {
+    try {
+      const db = await connectToDatabase()
+      await createTables(db)
+    } catch (error) {
+      console.error(error)
+    }
+  }, [])
+
   useEffect(() => {
     configureGoogleSignIn();
+    loadData()
     // createTable();
-  });
+  },[loadData]);
 
   const signIn = async () => {
     console.log("Pressed Sign In");
