@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { updateSearchLocation, getData } from "./Redux/Search/SearchSlice";
+import { updateSearchLocation, getData } from "../Redux/Search/SearchSlice";
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -47,8 +47,6 @@ export default function Search() {
       <Button title="search" onPress={submitSearch}>
         {" "}
       </Button>
-
-      {/* render results when they exist */}
       {searchResults && Object.keys(searchResults).length > 0 && (
         <View>
           <Text>Results:</Text>
@@ -56,7 +54,6 @@ export default function Search() {
           <Text>{`Temperature: ${searchResults.main.temp}°F`}</Text>
         </View>
       )}
-
     </View>
   );
 }
@@ -77,12 +74,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   newView: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     padding: 20,
     borderRadius: 10,
   },
   text: {
     fontSize: 18,
-    color: '#333',
+    color: "#333",
   },
 });

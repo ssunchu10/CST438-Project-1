@@ -5,7 +5,7 @@ import {
 } from "@react-native-google-signin/google-signin";
 import { useEffect, useState } from "react";
 
-export default function Login() {
+export default function Login({ onLoginSuccess }) {
   const [error, setError] = useState();
   const [userInfo, setUserInfo] = useState();
 
@@ -18,7 +18,7 @@ export default function Login() {
 
   useEffect(() => {
     configureGoogleSignIn();
-  });
+  }, []);
 
   const signIn = async () => {
     console.log("Pressed Sign In");
@@ -28,11 +28,16 @@ export default function Login() {
       const userInfo = await GoogleSignin.signIn();
       console.log(userInfo);
       setUserInfo(userInfo);
+      
+      if (onLoginSuccess) {
+        onLoginSuccess(userInfo);
+      }
     } catch (error) {
       console.log(error);
       setError(error);
     }
   };
+
   return (
     <View
       style={{
