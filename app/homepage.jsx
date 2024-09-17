@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ImageBackground, LayoutAnimation, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchWeather, fetchHourlyForecast } from './Redux/Homepage/WeatherSlice'; 
+import { fetchWeather, fetchHourlyForecast } from './Redux/Homepage/WeatherSlice';
 
-const kelvinToCelsius = (temp) => temp - 273.15;
-const kelvinToFahrenheit = (temp) => (temp - 273.15) * 9 / 5 + 32;
+
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const weatherData = useSelector((state) => state.weather.current);
-  const hourlyData = useSelector((state) => state.weather.forecast);
-  const isLoading = useSelector((state) => state.weather.status === 'loading');
+  const weatherData = useSelector((state) => state.weatherState.current);
+  const hourlyData = useSelector((state) => state.weatherState.forecast);
+  const isLoading = useSelector((state) => state.weatherState.status === 'loading');
+  const error = useSelector((state) => state.weatherState.error);
   const [isC, setIsC] = useState(true);
   const [isDay, setIsDay] = useState(true);
-  const [locationName, setLocationName] = useState('New York');  
-  const [error, setError] = useState('');
+  const [locationName, setLocationName] = useState('New York');
+
+  const cColor = 'white';  
+  const fColor = 'white';  
 
   useEffect(() => {
     dispatch(fetchWeather(locationName));
@@ -35,13 +37,13 @@ const HomePage = () => {
     setIsDay(currentHour >= 6 && currentHour < 18);
   };
 
-  const convertTemperature = (temp) => (isC ? kelvinToCelsius(temp) : kelvinToFahrenheit(temp));
+  const convertTemperature = (temp) => (isC ? (temp - 32) * 5 / 9 : temp);
 
   const backgroundImage = isDay
     ? require('../assets/images/day.webp')
     : require('../assets/images/moonn.webp');
 
-  if (isLoading || !weatherData || !hourlyData.length) {
+  if (isLoading) {
     return (
       <View style={styles.container}>
         <Text style={styles.loadingText}>Loading weather data...</Text>
@@ -53,6 +55,14 @@ const HomePage = () => {
     return (
       <View style={styles.container}>
         <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
+  }
+
+  if (!weatherData || !hourlyData.length) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>No data available</Text>
       </View>
     );
   }
@@ -73,16 +83,42 @@ const HomePage = () => {
         <Text style={styles.conditionText}>{weatherData.weather[0].description}</Text>
 
         <TouchableOpacity
-          style={styles.toggleButton}
+          style={{
+            height: 15, 
+            width: 35,
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: isC ? cColor : fColor,
+            overflow: 'hidden',
+            position:'absolute',
+            top:200,
+            
+           
+          
+            
+          }}
           onPress={() => {
             LayoutAnimation.easeInEaseOut();
-            setIsC(!isC);
-          }}
-        >
-          <View style={styles.toggleInner}>
-            <Text style={styles.toggleText}>{isC ? 'C' : 'F'}</Text>
+            setIsC(!isC);  
+          }}>
+
+<View
+            style={{
+              height: '100%',
+              width: '50%',
+              backgroundColor: isC ? cColor : fColor,
+              alignSelf: isC ? 'flex-end' : 'flex-start',
+              alignItems: 'center',
+              
+            }}>
+
+            <Text style={{ color: 'black', fontSize: 10, fontWeight: '500' }}>
+              {isC ? 'C' : 'F'}
+            </Text>
+
           </View>
         </TouchableOpacity>
+
 
         <ScrollView horizontal style={styles.scrollView}>
           {hourlyData.map((item, index) => {
@@ -161,6 +197,8 @@ const styles = StyleSheet.create({
   scrollView: {
     width: '100%',
     paddingVertical: 10,
+    flexDirection: 'row',  
+    marginTop:15,
   },
   hourlyContainer: {
     alignItems: 'center',
