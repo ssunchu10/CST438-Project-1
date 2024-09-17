@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ImageBackground, LayoutAnimation, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Location from 'expo-location'; 
 import { fetchWeather, fetchHourlyForecast } from './Redux/Homepage/WeatherSlice'; 
 
 const kelvinToCelsius = (temp) => temp - 273.15;
@@ -14,29 +13,12 @@ const HomePage = () => {
   const isLoading = useSelector((state) => state.weather.status === 'loading');
   const [isC, setIsC] = useState(true);
   const [isDay, setIsDay] = useState(true);
-  const [locationName, setLocationName] = useState(''); 
+  const [locationName, setLocationName] = useState('New York');  
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const getLocation = async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setError('Permission to access location was denied');
-        return;
-      }
-
-      const location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
-
-      const reverseGeocode = await Location.reverseGeocodeAsync({ latitude, longitude });
-      const locationName = reverseGeocode[0]?.city || 'Unknown City'; // Default to 'Unknown City' if no city found
-      setLocationName(locationName);
-
-      dispatch(fetchWeather(locationName));
-      dispatch(fetchHourlyForecast(locationName));
-    };
-
-    getLocation();
+    dispatch(fetchWeather(locationName));
+    dispatch(fetchHourlyForecast(locationName));
 
     determineTimeOfDay();
     const interval = setInterval(() => {
