@@ -20,7 +20,11 @@
         "foregroundImage": "./assets/images/icon.jpg",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.Weather"
+      "package": "com.anonymous.Weather",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "bundler": "metro",

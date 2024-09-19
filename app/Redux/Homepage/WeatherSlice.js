@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getWeather, getHourlyForecast } from '../../API/api';
 
+// Thunks for fetching data
 export const fetchWeather = createAsyncThunk(
   'weather/fetchWeather',
   async (location, thunkAPI) => {
@@ -31,6 +32,7 @@ const weatherSlice = createSlice({
     current: null,
     forecast: [],  // To store hourly forecast
     status: 'idle',
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -42,8 +44,9 @@ const weatherSlice = createSlice({
         state.status = 'succeeded';
         state.current = action.payload;
       })
-      .addCase(fetchWeather.rejected, (state) => {
+      .addCase(fetchWeather.rejected, (state, action) => {
         state.status = 'failed';
+        state.error = action.payload;
       })
       .addCase(fetchHourlyForecast.pending, (state) => {
         state.status = 'loading';
@@ -52,8 +55,9 @@ const weatherSlice = createSlice({
         state.status = 'succeeded';
         state.forecast = action.payload;
       })
-      .addCase(fetchHourlyForecast.rejected, (state) => {
+      .addCase(fetchHourlyForecast.rejected, (state, action) => {
         state.status = 'failed';
+        state.error = action.payload;
       });
   },
 });

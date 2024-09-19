@@ -1,6 +1,6 @@
 import { StyleSheet, ImageBackground, Button, View } from "react-native";
 import { Provider } from "react-redux";
-import { store } from "./Redux/store";
+import { store } from "./Redux/store.js";
 import App from "./App";
 
 export default function Index() {
