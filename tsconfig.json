@@ -14,7 +14,5 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts", 
     "app/_layout.tsx", 
-    "app/index.jsx", 
-    "app/index.jsx", 
-    "constants/Colors.js"  ]
+    "app/index.jsx", ]
 }
