@@ -40,8 +40,8 @@ const HomePage = () => {
   const convertTemperature = (temp) => (isC ? (temp - 32) * 5 / 9 : temp);
 
   const backgroundImage = isDay
-    ? require('../assets/images/day.webp')
-    : require('../assets/images/moonn.webp');
+    ? require('../assets/images/background.jpg')
+    : require('../assets/images/background.jpg');
 
   if (isLoading) {
     return (
@@ -68,7 +68,7 @@ const HomePage = () => {
   }
 
   return (
-    <ImageBackground source={backgroundImage} style={styles.background}>
+    <ImageBackground source={require('../assets/images/background.jpg')} style={styles.background}>
       <View style={styles.container}>
         <Text style={styles.city}>{locationName || 'Loading...'}</Text>
 

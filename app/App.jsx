@@ -15,7 +15,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {!isLoggedIn ? <Login2 onLoginSuccess={handleLoginSuccess} /> : <LocationPage />}
+      {!isLoggedIn ? <Login2 onLoginSuccess={handleLoginSuccess} /> : <HomePage />}
     </View>
   );
 }
