@@ -9,13 +9,6 @@ export default function RootLayout() {
           title: "Weather",
         }}
       />
-      
-    {/* <Stack.Screen
-        name="search"
-        options={{
-          title: "Search",
-        }}
-      /> */}
     </Stack>
   );
 }

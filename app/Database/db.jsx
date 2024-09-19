@@ -1,4 +1,4 @@
-import { User } from './user'; // Assuming 'user.js' defines the User interface
+import { User } from "./user"; // Assuming 'user.js' defines the User interface
 
 import {
   enablePromise,
@@ -8,8 +8,7 @@ import {
 
 enablePromise(true);
 
-export const connectToDatabase   
- = async () => {
+export const connectToDatabase = async () => {
   return openDatabase(
     { name: "weather.db", location: "default" },
     () => {},
@@ -54,8 +53,7 @@ export const getTableNames = async (db) => {
     return tableNames;
   } catch (error) {
     console.error(error);
-    throw   
- new Error("Failed to get table names from database");
+    throw new Error("Failed to get table names from database");
   }
 };
 
@@ -74,7 +72,13 @@ export const addUser = async (db, user) => {
     INSERT INTO Users (email, familyName, givenName, name, id)
     VALUES (?, ?, ?, ?, ?)
   `;
-  const values = [user.email, user.familyName, user.givenName, user.name, user.id];
+  const values = [
+    user.email,
+    user.familyName,
+    user.givenName,
+    user.name,
+    user.id,
+  ];
   try {
     return db.executeSql(insertQuery, values);
   } catch (error) {
@@ -95,8 +99,7 @@ export const getUser = async (db) => {
     return users;
   } catch (error) {
     console.error(error);
-    throw   
- new Error("Failed to get Users from database");
+    throw new Error("Failed to get Users from database");
   }
 };
 
@@ -106,7 +109,13 @@ export const updateUser = async (db, updatedUser) => {
     SET email = ?, familyName = ?, givenName = ?, name = ?
     WHERE id = ?
   `;
-  const values = [updatedUser.email, updatedUser.familyName, updatedUser.givenName, updatedUser.name, updatedUser.id];
+  const values = [
+    updatedUser.email,
+    updatedUser.familyName,
+    updatedUser.givenName,
+    updatedUser.name,
+    updatedUser.id,
+  ];
   try {
     return db.executeSql(updateQuery, values);
   } catch (error) {
