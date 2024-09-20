@@ -15,8 +15,10 @@ export default function Search() {
 
   const submitSearch = () => {
     console.log("Pressed Submit");
+    
     dispatch(updateSearchLocation(searchQuery));
     dispatch(getData());
+    router.back(); 
   };
 
   // to make sure searchResults were updating properly
@@ -31,7 +33,7 @@ export default function Search() {
 
   return (
     <ImageBackground
-      source={require('../assetss/background.jpg')} 
+      source={require('../assets/background.jpg')} 
       style={styles.backgroundImage}
     >
     <View
@@ -52,13 +54,7 @@ export default function Search() {
       <Button title="search" onPress={submitSearch}>
         
       </Button>
-      {searchResults && Object.keys(searchResults).length > 0 && (
-        <View>
-          <Text>Results:</Text>
-          <Text>{`Location: ${searchResults.name}`}</Text>
-          <Text>{`Temperature: ${searchResults.main.temp}°F`}</Text>
-        </View>
-      )}
+      
     </View>
         </ImageBackground>
 

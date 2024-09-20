@@ -13,14 +13,20 @@ const HomePage = () => {
   const error = useSelector((state) => state.weatherState.error);
   const [isC, setIsC] = useState(true);
   const [isDay, setIsDay] = useState(true);
-  const [locationName, setLocationName] = useState('Marina');
+  //const [locationName] = useState('Marina');
+  const locationName = useSelector((state) => state.searchState.location) || 'Marina';
 
   const cColor = 'white';  
   const fColor = 'white';  
 
   useEffect(() => {
-    dispatch(fetchWeather(locationName));
+    console.log("Location Name:", locationName);
+
+
+    if (locationName) {  
+      dispatch(fetchWeather(locationName));
     dispatch(fetchHourlyForecast(locationName));
+    }
 
     determineTimeOfDay();
     const interval = setInterval(() => {
@@ -41,13 +47,13 @@ const HomePage = () => {
 
   
 
-  if (isLoading) {
+  /*if (isLoading) {
     return (
       <View style={styles.container}>
         <Text style={styles.loadingText}>Loading weather data...</Text>
       </View>
     );
-  }
+  }*/
 
   if (error) {
     return (
@@ -67,7 +73,7 @@ const HomePage = () => {
 
   return (
       <View style={styles.container}>
-        <Text style={styles.city}>{locationName || 'Loading...'}</Text>
+        <Text style={styles.city}>{locationName }</Text>
 
         <Text style={styles.title}>
           {convertTemperature(weatherData.main.temp).toFixed(1)}°{isC ? 'C' : 'F'}
@@ -85,31 +91,26 @@ const HomePage = () => {
             width: 35,
             borderRadius: 10,
             borderWidth: 1,
-            borderColor: isC ? cColor : fColor,
+            borderColor: '#34495e',
             overflow: 'hidden',
             position:'absolute',
             top:200,
-            
-           
-          
-            
           }}
           onPress={() => {
             LayoutAnimation.easeInEaseOut();
             setIsC(!isC);  
           }}>
 
-<View
+          <View
             style={{
               height: '100%',
               width: '50%',
-              backgroundColor: isC ? cColor : fColor,
+              backgroundColor: '#34495e',
               alignSelf: isC ? 'flex-end' : 'flex-start',
               alignItems: 'center',
-              
             }}>
 
-            <Text style={{ color: 'black', fontSize: 10, fontWeight: '500' }}>
+            <Text style={{ color: 'white', fontSize: 10, fontWeight: '500' }}>
               {isC ? 'C' : 'F'}
             </Text>
 
@@ -145,11 +146,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   city: {
-    fontSize: 35,
+    fontSize: 40,
     fontWeight: 'bold',
     color: '#fff',
     marginTop: 40,
     marginBottom: 10,
+    textTransform: 'uppercase',
   },
   title: {
     fontSize: 30,
@@ -159,21 +161,21 @@ const styles = StyleSheet.create({
   },
   conditionText: {
     fontSize: 18,
-    color: 'white',
+    color: '#34495e',
     marginBottom: 15,
     fontWeight:"bold",
     textTransform: 'uppercase',
   },
   feelsLikeText: {
     fontSize: 15,
-    color: 'white',
+    color: '#34495e',
   },
   toggleButton: {
     height: 15,
     width: 35,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: '#34495e',
     overflow: 'hidden',
     position: 'absolute',
     top: 115,
@@ -202,12 +204,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   hourText: {
-    color: '#fff',
+    color: '#34495e',
     fontSize: 16,
   },
   tempText: {
-    color: '#fff',
+    color: '#34495e',
     fontSize: 16,
+    fontWeight:'bold',
   },
   loadingText: {
     fontSize: 20,

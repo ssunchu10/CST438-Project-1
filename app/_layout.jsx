@@ -14,6 +14,7 @@ export default function RootLayout() {
   const openMenu = () => setMenuVisible(true);
   const closeMenu = () => setMenuVisible(false);
 
+  // Header layout for the HomePage, with search icon and menu
   const renderHeaderRight = () => (
     <View style={styles.headerIcons}>
       <TouchableOpacity onPress={() => router.push('./components/search')}>
@@ -39,30 +40,36 @@ export default function RootLayout() {
     <ReduxProvider store={store}>
       <Provider>
         <Stack>
+          {/* Login Page with "Weather" as the title */}
           <Stack.Screen
-            name="index"
+            name="components/login2"
+            options={{
+              headerTitle: () => <Text style={styles.headerTitle}>Weather</Text>,
+              headerStyle: { backgroundColor: 'white' },
+              headerTintColor: '#000',
+              headerRight: null,  // No icons for the login page
+            }}
+          />
+
+          {/* HomePage with the custom header bar */}
+          <Stack.Screen
+            name="index"  // Assuming this is your HomePage
             options={{
               headerTitle: () => <Text style={styles.headerTitle}>Welcome User</Text>,
               headerStyle: { backgroundColor: 'white' },
               headerTintColor: '#000',
-              headerRight: () => renderHeaderRight(),
+              headerRight: () => renderHeaderRight(),  // Show the search icon and menu here
             }}
           />
-        
+
+          {/* Search Page with "Search" as the title */}
           <Stack.Screen
-            name="homepage"
+            name="components/search"
             options={{
-              headerShown: false,
-            }}
-          />
-          
-          <Stack.Screen
-            name="search"
-            options={{
-              headerTitle: () => <Text style={styles.headerTitle}>Welcome User</Text>,
-              title: 'Search', 
+              headerTitle: () => <Text style={styles.headerTitle}>Search</Text>,
               headerStyle: { backgroundColor: 'white' },
               headerTintColor: '#000',
+              headerRight: null,  // No icons for the search page
             }}
           />
         </Stack>

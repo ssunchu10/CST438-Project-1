@@ -18,7 +18,7 @@ export const getData = () => async(dispatch, getState) => {
         dispatch(setErrorMessage("Location Not Found!"));
         dispatch(getSearchResults([]));
     }
-    dispatch(updateSearchLocation(""));    
+   // dispatch(updateSearchLocation(""));    
 }
 
 const SearchSlice = createSlice({
