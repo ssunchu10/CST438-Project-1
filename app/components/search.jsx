@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
-import { View, Text, TextInput, StyleSheet, Button } from "react-native";
+import { View, Text, TextInput, StyleSheet, Button, ImageBackground } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSearchLocation, getData } from "../Redux/Search/SearchSlice";
 
@@ -14,6 +14,7 @@ export default function Search() {
   };
 
   const submitSearch = () => {
+    console.log("Pressed Submit");
     dispatch(updateSearchLocation(searchQuery));
     dispatch(getData());
   };
@@ -29,6 +30,10 @@ export default function Search() {
   */
 
   return (
+    <ImageBackground
+      source={require('../assetss/background.jpg')} 
+      style={styles.backgroundImage}
+    >
     <View
       style={{
         flex: 1,
@@ -45,7 +50,7 @@ export default function Search() {
         onChangeText={handleSearch}
       />
       <Button title="search" onPress={submitSearch}>
-        {" "}
+        
       </Button>
       {searchResults && Object.keys(searchResults).length > 0 && (
         <View>
@@ -55,6 +60,8 @@ export default function Search() {
         </View>
       )}
     </View>
+        </ImageBackground>
+
   );
 }
 
@@ -63,6 +70,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
   },
   searchInput: {
     height: 40,
