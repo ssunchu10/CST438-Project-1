@@ -2,8 +2,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Login2 from "./components/login2";
 import Search from "./components/search";
-import HomePage from "./homepage";
-import LocationPage from "./components/LocationPage";
+import HomePage from "./components/homepage";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

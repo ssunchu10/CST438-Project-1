@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ImageBackground, LayoutAnimation, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchWeather, fetchHourlyForecast } from './Redux/Homepage/WeatherSlice';
+import { fetchWeather, fetchHourlyForecast } from '../Redux/Homepage/WeatherSlice';
 
 
 
@@ -13,7 +13,7 @@ const HomePage = () => {
   const error = useSelector((state) => state.weatherState.error);
   const [isC, setIsC] = useState(true);
   const [isDay, setIsDay] = useState(true);
-  const [locationName, setLocationName] = useState('New York');
+  const [locationName, setLocationName] = useState('Marina');
 
   const cColor = 'white';  
   const fColor = 'white';  
@@ -39,9 +39,7 @@ const HomePage = () => {
 
   const convertTemperature = (temp) => (isC ? (temp - 32) * 5 / 9 : temp);
 
-  const backgroundImage = isDay
-    ? require('../assets/images/background.jpg')
-    : require('../assets/images/background.jpg');
+  
 
   if (isLoading) {
     return (
@@ -68,7 +66,6 @@ const HomePage = () => {
   }
 
   return (
-    <ImageBackground source={require('../assets/images/background.jpg')} style={styles.background}>
       <View style={styles.container}>
         <Text style={styles.city}>{locationName || 'Loading...'}</Text>
 
@@ -133,7 +130,6 @@ const HomePage = () => {
           })}
         </ScrollView>
       </View>
-    </ImageBackground>
   );
 };
 
@@ -163,13 +159,14 @@ const styles = StyleSheet.create({
   },
   conditionText: {
     fontSize: 18,
-    color: '#fff',
+    color: 'white',
     marginBottom: 15,
+    fontWeight:"bold",
     textTransform: 'uppercase',
   },
   feelsLikeText: {
     fontSize: 15,
-    color: '#fff',
+    color: 'white',
   },
   toggleButton: {
     height: 15,

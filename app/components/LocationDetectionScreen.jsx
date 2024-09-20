@@ -1,4 +1,4 @@
-// LocationDetectionScreen.jsx
+/*// LocationDetectionScreen.jsx
 import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 import { View, Text, StyleSheet } from 'react-native';
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LocationDetectionScreen;
+export default LocationDetectionScreen;*/

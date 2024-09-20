@@ -13,8 +13,8 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts", 
-    "app/_layout.tsx", 
+    "app/_layout.jsx", 
     "app/index.jsx", 
     "app/index.jsx", 
-    "constants/Colors.js", "app/homepage.jsx"  ]
+    "constants/Colors.js", "app/components/homepage.jsx"  ]
 }
