@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Login from "./components/login";
-import Search from "./components/search";
+import HomePage from "./homepage";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -13,7 +13,11 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {!isLoggedIn ? <Login onLoginSuccess={handleLoginSuccess} /> : <Search />}
+      {!isLoggedIn ? (
+        <Login onLoginSuccess={handleLoginSuccess} />
+      ) : (
+        <HomePage />
+      )}
     </View>
   );
 }
