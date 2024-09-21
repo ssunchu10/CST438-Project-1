@@ -1,4 +1,4 @@
-/*// LocationPage.jsx
+// LocationPage.jsx
 
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Button } from 'react-native';
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LocationPage;*/
+export default LocationPage;

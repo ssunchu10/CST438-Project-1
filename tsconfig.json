@@ -16,5 +16,5 @@
     "app/_layout.jsx", 
     "app/index.jsx", 
     "app/index.jsx", 
-    "constants/Colors.js", "app/components/homepage.jsx"  ]
+    "constants/Colors.js", "app/homepage.jsx"  ]
 }

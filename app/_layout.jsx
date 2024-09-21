@@ -2,11 +2,8 @@ import { Stack } from 'expo-router';
 import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { Menu, Provider } from 'react-native-paper';
+import { Menu } from 'react-native-paper';
 import { useRouter } from "expo-router";
-import { Provider as ReduxProvider } from 'react-redux';
-import store from '../app/Redux/store'; // Adjust this import based on your store location
-
 export default function RootLayout() {
   const [menuVisible, setMenuVisible] = useState(false);
   const router = useRouter();
@@ -16,9 +13,6 @@ export default function RootLayout() {
 
   const renderHeaderRight = () => (
     <View style={styles.headerIcons}>
-      <TouchableOpacity onPress={() => router.push('./components/search')}>
-        <AntDesign name="search1" size={20} color="black" style={styles.headerIcon} />
-      </TouchableOpacity>
       <Menu
         visible={menuVisible}
         onDismiss={closeMenu}
@@ -36,8 +30,6 @@ export default function RootLayout() {
   );
 
   return (
-    <ReduxProvider store={store}>
-      <Provider>
         <Stack>
           <Stack.Screen
             name="index"
@@ -66,8 +58,6 @@ export default function RootLayout() {
             }}
           />
         </Stack>
-      </Provider>
-    </ReduxProvider>
   );
 }
 
