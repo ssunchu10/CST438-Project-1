@@ -7,6 +7,7 @@ export const fetchWeather = createAsyncThunk(
   async (location, thunkAPI) => {
     try {
       const response = await getWeather(location);
+      console.log(response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -30,7 +31,7 @@ const weatherSlice = createSlice({
   name: 'weather',
   initialState: {
     current: null,
-    forecast: [],  // To store hourly forecast
+    forecast: [], 
     status: 'idle',
     error: null,
   },

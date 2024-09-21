@@ -47,16 +47,6 @@ export default function RootLayout() {
               headerShown: false,
             }}
           />
-          
-          <Stack.Screen
-            name="search"
-            options={{
-              headerTitle: () => <Text style={styles.headerTitle}>Welcome User</Text>,
-              title: 'Search', 
-              headerStyle: { backgroundColor: 'white' },
-              headerTintColor: '#000',
-            }}
-          />
         </Stack>
   );
 }

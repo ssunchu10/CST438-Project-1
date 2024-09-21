@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  TextInput,
   View,
   Text,
   StyleSheet,
@@ -24,6 +25,7 @@ const HomePage = () => {
   const error = useSelector((state) => state.weatherState.error);
   const [isC, setIsC] = useState(true);
   const [isDay, setIsDay] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [locationName, setLocationName] = useState("Mumbai");
 
   const cColor = "white";
@@ -46,6 +48,15 @@ const HomePage = () => {
   const determineTimeOfDay = () => {
     const currentHour = new Date().getHours();
     setIsDay(currentHour >= 6 && currentHour < 18);
+  };
+
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      
+      setLocationName(searchQuery);
+      setSearchQuery("");
+    }
   };
 
   const convertTemperature = (temp) => (isC ? ((temp - 32) * 5) / 9 : temp);
@@ -76,6 +87,13 @@ const HomePage = () => {
 
   return (
     <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        onChangeText={setSearchQuery}
+        onSubmitEditing={handleSearch}
+        value={searchQuery}
+        placeholder="Enter Location"
+      />
       <Text style={styles.city}>{locationName || "Loading..."}</Text>
 
       <Text style={styles.title}>
@@ -93,14 +111,14 @@ const HomePage = () => {
 
       <TouchableOpacity
         style={{
-          height: 15,
-          width: 35,
+          height: 25,
+          width: 45,
           borderRadius: 10,
           borderWidth: 1,
           borderColor: isC ? cColor : fColor,
           overflow: "hidden",
           position: "absolute",
-          top: 200,
+          top: 450,
         }}
         onPress={() => {
           LayoutAnimation.easeInEaseOut();
@@ -114,6 +132,7 @@ const HomePage = () => {
             backgroundColor: isC ? cColor : fColor,
             alignSelf: isC ? "flex-end" : "flex-start",
             alignItems: "center",
+            justifyContent:"center",
           }}
         >
           <Text style={{ color: "black", fontSize: 10, fontWeight: "500" }}>
@@ -142,6 +161,15 @@ const HomePage = () => {
 };
 
 const styles = StyleSheet.create({
+  input : {
+    marginTop: 100,
+    width: '100%',
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 25, // This creates the curved border
+    backgroundColor: '#fff',
+  },
   background: {
     flex: 1,
     resizeMode: "cover",
@@ -156,7 +184,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: "bold",
     color: "#fff",
-    marginTop: 40,
+    marginTop: 150,
     marginBottom: 10,
   },
   title: {
@@ -184,8 +212,6 @@ const styles = StyleSheet.create({
     borderColor: "white",
     overflow: "hidden",
     position: "absolute",
-    top: 115,
-    left: 265,
   },
   toggleInner: {
     height: "100%",

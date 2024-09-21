@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Login from "./components/login";
-import Search from "../app/search";
 import HomePage from "./homepage";
 
 export default function App() {
