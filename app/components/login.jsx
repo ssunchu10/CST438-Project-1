@@ -44,8 +44,8 @@ export default function Login({ onLoginSuccess }) {
         alignItems: "center",
       }}
     >
-      <Text>{JSON.stringify(error)}</Text>
-      <Text>{JSON.stringify(userInfo)}</Text>
+      {error && <Text>{JSON.stringify(error)}</Text>}
+      {userInfo && <Text>{JSON.stringify(userInfo)}</Text>}
       <GoogleSigninButton
         size={GoogleSigninButton.Size.Standard}
         color={GoogleSigninButton.Color.Dark}

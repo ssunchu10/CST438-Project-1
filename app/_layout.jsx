@@ -4,9 +4,9 @@ import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Menu } from 'react-native-paper';
 import { useRouter } from "expo-router";
+
 export default function RootLayout() {
   const [menuVisible, setMenuVisible] = useState(false);
-  const router = useRouter();
 
   const openMenu = () => setMenuVisible(true);
   const closeMenu = () => setMenuVisible(false);

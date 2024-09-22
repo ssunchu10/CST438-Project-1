@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextInput,
   View,
   Text,
   StyleSheet,
-  ImageBackground,
-  LayoutAnimation,
   TouchableOpacity,
   ScrollView,
+  ImageBackground,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchWeather,
   fetchHourlyForecast,
 } from "./Redux/Homepage/WeatherSlice";
+import { Ionicons } from "@expo/vector-icons";
 
-const HomePage = () => {
+const Homepage = () => {
   const dispatch = useDispatch();
   const weatherData = useSelector((state) => state.weatherState.current);
   const hourlyData = useSelector((state) => state.weatherState.forecast);
@@ -24,18 +24,13 @@ const HomePage = () => {
   );
   const error = useSelector((state) => state.weatherState.error);
   const [isC, setIsC] = useState(true);
-  const [isDay, setIsDay] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [locationName, setLocationName] = useState("Mumbai");
-
-  const cColor = "white";
-  const fColor = "white";
+  const [locationName, setLocationName] = useState("Seaside");
 
   useEffect(() => {
     dispatch(fetchWeather(locationName));
     dispatch(fetchHourlyForecast(locationName));
 
-    determineTimeOfDay();
     const interval = setInterval(() => {
       if (locationName) {
         dispatch(fetchWeather(locationName));
@@ -45,15 +40,8 @@ const HomePage = () => {
     return () => clearInterval(interval);
   }, [dispatch, locationName]);
 
-  const determineTimeOfDay = () => {
-    const currentHour = new Date().getHours();
-    setIsDay(currentHour >= 6 && currentHour < 18);
-  };
-
-
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      
       setLocationName(searchQuery);
       setSearchQuery("");
     }
@@ -61,198 +49,173 @@ const HomePage = () => {
 
   const convertTemperature = (temp) => (isC ? ((temp - 32) * 5) / 9 : temp);
 
-  if (isLoading) {
+  const getWeatherIcon = (description) => {
+    const lowerDescription = description.toLowerCase();
+    if (lowerDescription.includes("rain")) return "rainy";
+    if (lowerDescription.includes("cloud")) return "cloudy";
+    return new Date().getHours() >= 6 && new Date().getHours() < 18
+      ? "sunny"
+      : "moon";
+  };
+
+  if (isLoading)
     return (
       <View style={styles.container}>
         <Text style={styles.loadingText}>Loading weather data...</Text>
       </View>
     );
-  }
-
-  if (error) {
+  if (error)
     return (
       <View style={styles.container}>
         <Text style={styles.errorText}>{error}</Text>
       </View>
     );
-  }
-
-  if (!weatherData || !hourlyData.length) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.loadingText}>No data available</Text>
-      </View>
-    );
-  }
+  const noData = !weatherData || !hourlyData.length;
 
   return (
-    <View style={styles.container}>
+    <View style={styles.overlay}>
       <TextInput
         style={styles.input}
         onChangeText={setSearchQuery}
         onSubmitEditing={handleSearch}
         value={searchQuery}
         placeholder="Enter Location"
+        placeholderTextColor="#ccc"
       />
-      <Text style={styles.city}>{locationName || "Loading..."}</Text>
-
-      <Text style={styles.title}>
-        {convertTemperature(weatherData.main.temp).toFixed(1)}°{isC ? "C" : "F"}
-      </Text>
-
-      <Text style={styles.feelsLikeText}>
-        Feels Like {convertTemperature(weatherData.main.feels_like).toFixed(1)}°
-        {isC ? "C" : "F"}
-      </Text>
-
-      <Text style={styles.conditionText}>
-        {weatherData.weather[0].description}
-      </Text>
-
-      <TouchableOpacity
-        style={{
-          height: 25,
-          width: 45,
-          borderRadius: 10,
-          borderWidth: 1,
-          borderColor: isC ? cColor : fColor,
-          overflow: "hidden",
-          position: "absolute",
-          top: 450,
-        }}
-        onPress={() => {
-          LayoutAnimation.easeInEaseOut();
-          setIsC(!isC);
-        }}
-      >
-        <View
-          style={{
-            height: "100%",
-            width: "50%",
-            backgroundColor: isC ? cColor : fColor,
-            alignSelf: isC ? "flex-end" : "flex-start",
-            alignItems: "center",
-            justifyContent:"center",
-          }}
-        >
-          <Text style={{ color: "black", fontSize: 10, fontWeight: "500" }}>
-            {isC ? "C" : "F"}
-          </Text>
-        </View>
-      </TouchableOpacity>
-      
-
-      <ScrollView horizontal style={styles.scrollView}>
-        {hourlyData.map((item, index) => {
-          const hour = new Date(item.dt * 1000).getHours();
-          const temp = convertTemperature(item.main.temp);
-          return (
-            <View key={index} style={styles.hourlyContainer}>
-              <Text style={styles.hourText}>{hour}:00</Text>
-              <Text style={styles.tempText}>
-                {temp.toFixed(1)}°{isC ? "C" : "F"}
+      <View style={[styles.content]}>
+        {noData ? (
+          <Text style={styles.loadingText}>No data available</Text>
+        ) : (
+          <>
+            <Text style={styles.city}>{locationName}</Text>
+            <View style={styles.weatherInfo}>
+              <Ionicons
+                name={getWeatherIcon(weatherData.weather[0].description)}
+                size={48}
+                color="white"
+              />
+              <Text style={styles.temperature}>
+                {convertTemperature(weatherData.main.temp).toFixed(1)}°
+                {isC ? "C" : "F"}
+              </Text>
+              <Text style={styles.description}>
+                {weatherData.weather[0].description}
+              </Text>
+              <Text style={styles.feelsLike}>
+                Feels like{" "}
+                {convertTemperature(weatherData.main.feels_like).toFixed(1)}°
+                {isC ? "C" : "F"}
               </Text>
             </View>
-          );
-        })}
-      </ScrollView>
+            <TouchableOpacity
+              style={styles.toggleButton}
+              onPress={() => setIsC(!isC)}
+            >
+              <Text style={styles.toggleText}>{isC ? "°C" : "°F"}</Text>
+            </TouchableOpacity>
+            <ScrollView horizontal style={styles.hourlyForecast}>
+              {hourlyData.slice(0, 6).map((item, index) => {
+                const hour = new Date(item.dt * 1000).getHours();
+                const temp = convertTemperature(item.main.temp);
+                return (
+                  <View key={index} style={styles.hourlyItem}>
+                    <Text style={styles.hourlyTime}>{hour}:00</Text>
+                    <Text style={styles.hourlyTemp}>
+                      {temp.toFixed(1)}°{isC ? "C" : "F"}
+                    </Text>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          </>
+        )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  input : {
-    marginTop: 100,
-    width: '100%',
-    padding: 10,
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.1)",
+    padding: 20,
+  },
+  content: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  input: {
+    backgroundColor: "rgba(255,255,255,0.2)",
+    borderRadius: 20,
+    padding: 12,
+    color: "white",
+    marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 25, // This creates the curved border
-    backgroundColor: '#fff',
-  },
-  background: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    borderColor: "rgba(255,255,255,0.8)",
+    textAlign: "center",
+    fontSize: 16,
   },
   city: {
-    fontSize: 35,
+    fontSize: 36,
     fontWeight: "bold",
-    color: "#fff",
-    marginTop: 150,
-    marginBottom: 10,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#fff",
-    marginBottom: 5,
-  },
-  conditionText: {
-    fontSize: 18,
     color: "white",
-    marginBottom: 15,
-    fontWeight: "bold",
-    textTransform: "uppercase",
+    textAlign: "center",
+    marginBottom: 20,
   },
-  feelsLikeText: {
-    fontSize: 15,
+  weatherInfo: {
+    alignItems: "center",
+  },
+  temperature: {
+    fontSize: 72,
+    fontWeight: "bold",
+    color: "white",
+  },
+  description: {
+    fontSize: 24,
+    color: "white",
+    textTransform: "capitalize",
+  },
+  feelsLike: {
+    fontSize: 18,
     color: "white",
   },
   toggleButton: {
-    height: 15,
-    width: 35,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "white",
-    overflow: "hidden",
-    position: "absolute",
-  },
-  toggleInner: {
-    height: "100%",
-    width: "50%",
-    backgroundColor: "white",
-    alignSelf: "flex-end",
-    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.2)",
+    padding: 10,
+    borderRadius: 20,
+    alignSelf: "center",
   },
   toggleText: {
-    color: "black",
-    fontSize: 10,
-    fontWeight: "500",
+    color: "white",
+    fontWeight: "bold",
   },
-  scrollView: {
-    width: "100%",
-    paddingVertical: 10,
-    flexDirection: "row",
-    marginTop: 15,
+  hourlyForecast: {
+    marginTop: 20,
   },
-  hourlyContainer: {
+  hourlyItem: {
     alignItems: "center",
-    marginHorizontal: 10,
+    marginRight: 20,
   },
-  hourText: {
-    color: "#fff",
+  hourlyTime: {
+    color: "white",
     fontSize: 16,
   },
-  tempText: {
-    color: "#fff",
-    fontSize: 16,
+  hourlyTemp: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   loadingText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#fff",
+    color: "white",
+    fontSize: 45,
+    textAlign: "center",
+    marginTop: 10,
   },
   errorText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#f00",
+    color: "red",
+    fontSize: 18,
+    textAlign: "center",
   },
 });
 
-export default HomePage;
+export default Homepage;
