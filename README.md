@@ -8,7 +8,7 @@ This is a Weather Forecasting App built with React Native that provides real-tim
 
 2. Hourly Forecast: Provides weather updates for the current day in 3-hour intervals, including future predictions for morning, afternoon, evening, and night.
 
-3. Search Functionality: Users can search for any city in the world (handled by another teammate) and set it as the default city on the homepage.
+3. Search Functionality: Users can search for any city in the world and set it as the default city on the homepage.
 
 4.Location Detection: Upon login, the app detects the user's current location, confirms the city or ZIP code, and displays the weather for that location.
 
