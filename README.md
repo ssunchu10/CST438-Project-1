@@ -46,7 +46,7 @@ Matthew worked on the app’s search functionality, mainly working with the API.
 ## Aiman Khan
 
 * Aiman’s pull requests [Create Homepage](https://github.com/ssunchu10/CST438-Project-1/pull/19), [ Connecting Homepage and Search page](https://github.com/ssunchu10/CST438-Project-1/pull/24)
-* [Aiman's Github issues][Homepage](https://github.com/ssunchu10/CST438-Project-1/issues/4), [Retrieve data from search bar to display on Homepage](https://github.com/ssunchu10/CST438-Project-1/issues/20)
+* Aiman's Github issues [Homepage](https://github.com/ssunchu10/CST438-Project-1/issues/4), [Retrieve data from search bar to display on Homepage](https://github.com/ssunchu10/CST438-Project-1/issues/20)
 
 **What was your role/which stories did you work on?**
 
